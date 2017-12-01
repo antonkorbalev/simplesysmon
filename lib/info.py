@@ -18,6 +18,19 @@ def get_panel(header, text):
             "</div>", header, text)
 
 
+def get_contents(graph, text):
+    return str.format("<TABLE>"
+                      "<TR>"
+                      "<TD> {0} </TD>" 
+                      "<TD>" 
+                      "<DIV class\"container\"> {1} </DIV>" 
+                      " </TD>" 
+                      "</TR>" 
+                      "</TABLE>",
+                      graph,
+                      text)
+
+
 def get_disks_usage():
     return_text = ""
     num = 0
@@ -34,6 +47,7 @@ def get_disks_usage():
         plt.subplot(122)
         plt.plot(list(map(itemgetter(num), timemon.disk_usage)))
         plt.ylabel('MBs')
+        plt.xlabel(str.format('Interval {0} s', cfg.time_step))
         plt.title('Disk available space')
         plt.tight_layout()
         html_graph = mpld3.fig_to_html(fig)
@@ -43,18 +57,7 @@ def get_disks_usage():
                           "</div>",
                           di.free / 1024 / 1024,
                           di.used / 1024 / 1024)
-        contents = "<TABLE>" \
-                   "<TR>" \
-                   "<TD>" \
-                   + html_graph \
-                   + "</TD>" \
-                     "<TD>" \
-                   + "<DIV class\"container\" " \
-                   + text \
-                   + "</DIV>" \
-                     " </TD>" \
-                     "</TR>" \
-                     "</TABLE>"
+        contents = get_contents(html_graph, text)
         return_text = return_text + get_panel(str.format("Disk {0} info", dp.mountpoint), contents)
         num = num + 1
     return return_text
@@ -95,21 +98,11 @@ def get_mem_info():
     plt.subplot(122)
     plt.plot(timemon.mem_info)
     plt.ylabel('MBs')
+    plt.xlabel(str.format('Interval {0} s', cfg.time_step))
     plt.title('Avaliable memory')
     plt.tight_layout()
     html_graph = mpld3.fig_to_html(fig)
-    contents = "<TABLE>" \
-               "<TR>" \
-               "<TD>" \
-               + html_graph \
-               + "</TD>" \
-               "<TD>" \
-               + "<DIV class\"container\" " \
-               + text   \
-               + "</DIV>" \
-               " </TD>" \
-               "</TR>" \
-               "</TABLE>"
+    contents = get_contents(html_graph, text)
     return get_panel("Memory info", contents)
 
 
