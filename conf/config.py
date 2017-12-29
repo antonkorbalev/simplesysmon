@@ -1,5 +1,3 @@
-import psutil
-
 # configuration for server monitor
 
 #general info
