@@ -5,7 +5,7 @@ version = 1.0
 
 # web server info
 server_name = "monitor"
-server_port = 500
+server_port = 10000
 server_host = "localhost"
 
 #monitoring

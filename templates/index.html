@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title> Server monitor v. {{ script_version }} </title>
+</head>
+<body>
+    <div class="container">
+        <H1> Server information </H1>
+        <H3>
+            <span class="label label-success">
+                Active since {{ active_since }} ({{ days_active }} days)
+            </span>
+        </H3>
+        <p class="text-info">
+            {{ system }} {{ release }} {{ version }}
+        </p>
+    </div>
+    {% for block in blocks %}
+        <div class="container">
+            <H2> {{ block.title }} </H2>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table>
+                      <tr>
+                      <td>
+                          {{ block.graph }}
+                      </td>
+                      <td>
+                      <div class = "container">
+                        <p class="text-primary">
+                            {{ block.data.primary }}
+                        </p>
+                            {% for line in block.data.lines %}
+                                <p class="text-info">
+                                    {{ line }}
+                                </p>
+                            {% endfor %}
+                      </div>
+                      </td>
+                      </tr>
+                      </table>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>
